@@ -1,10 +1,14 @@
 import type { Entity, Id, Query, Iter } from "@rbxts/jecs";
 
 export type Observer<T extends unknown[]> = {
-    iter: Iter<T>,
-    entities: Entity[],
     disconnect: () => void,
-} & Iter<T>;
+};
 
-export declare function observer<T extends unknown[]>(query: Query<T>, callback?: (e: Entity, c: Id, value: any) => void): Observer<T>;
-export declare function monitor<T extends unknown[]>(query: Query<T>, callback?: (e: Entity, c: Id, value: any) => void): Observer<T>;
+export type Monitor<T extends unknown[]> = {
+    disconnect: () => void;
+    added: (callback: (entity: Entity) => void) => void;
+    removed: (callback: (entity: Entity) => void) => void;
+}
+
+export declare function observer<T extends unknown[]>(query: Query<T>, callback?: (e: Entity) => void): Observer<T>;
+export declare function monitor<T extends unknown[]>(query: Query<T>, callback?: (e: Entity) => void): Observer<T>;
